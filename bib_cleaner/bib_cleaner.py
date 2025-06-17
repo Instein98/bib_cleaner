@@ -36,7 +36,7 @@ def tex_to_tags(tex_files):
     for a_file in tex_files:
         with open(a_file, encoding="utf-8") as f:
             contents = f.read()
-        all_csv_tags += list(set(re.findall(r"\\cite{[A-Za-z0-9 ,\-_]+}", contents)))
+        all_csv_tags += list(set(re.findall(r"\\cite{[\w0-9 ,\/\-_:.]+}", contents)))
     all_csv_tags = [a_name[6:-1] for a_name in all_csv_tags]
 
     all_tags = []
@@ -45,8 +45,8 @@ def tex_to_tags(tex_files):
         if "," not in this_each_csv:
             all_tags += [this_each_csv]
         else:
-            all_tags += this_each_csv.split(",")
-
+            for tmp in this_each_csv.split(","):
+                all_tags.append(tmp.strip())
     return all_tags
 
 
